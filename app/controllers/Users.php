@@ -4,7 +4,7 @@
 class Users extends Controller
 {
     public function login(){
-        $this->view('users/login', $data);
+        $this->view('users/login');
     }
 
 public function register(){
