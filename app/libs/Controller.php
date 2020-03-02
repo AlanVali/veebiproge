@@ -15,4 +15,9 @@ public  function view($viewFile, $data = array()){
         die($viewFile.'.php does not exist');
     }
 }
+// load model
+public function model($modelFile){
+    require_once '../app/models/'.$modelFile.'.php';
+    return new $modelFile();
+}
 }

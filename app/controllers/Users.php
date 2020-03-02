@@ -3,16 +3,20 @@
 
 class Users extends Controller
 {
+    public function __construct(){
+        $this->userModel = $this->model('User');
+    }
+
     public function login(){
         $this->view('users/login');
     }
 
-public function register(){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            echo 'Lmao I yeeted your data into the void';
-            //Process form
+    public function register(){
+        // check post request
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // process form
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            //init data
+            // init data
             $data = array(
                 'name' => trim($_POST['name']),
                 'email' => trim($_POST['email']),
@@ -21,34 +25,33 @@ public function register(){
                 'name_err' => '',
                 'email_err' => '',
                 'pass_err' => '',
-                'pass2_err' => '',
+                'pass2_err' => ''
             );
-            //validate name
-            if (empty($data['name'])){
-                $data['name_err'] = 'Please enter a name';
-            };
-            echo '<pre>';
-            print_r($data);
-            echo '</pre>';
+            // validate name
+            if(empty($data['name'])){
+                $data['name_err'] = 'Please enter the name';
+            }
+            // validate email
+            if(empty($data['email'])){
+                $data['email_err'] = 'Please enter the email';
+            } else if($this->userModel->findUserByEmail($data['email'])){
+                $data['email_err'] = 'Email is already taken';
+            }
+            // validate password
+            if(empty($data['pass'])){
+                $data['pass_err'] = 'Please enter the password';
+            } else if(strlen($data['pass']) < 6){
+                $data['pass_err'] = 'Password must be at least 6 characters';
+            }
+            // validate password confirmation
+            if(empty($data['pass2'])){
+                $data['pass2_err'] = 'Please enter the confirm password';
+            } else if($data['pass'] != $data['pass2']){
+                $data['pass2_err'] = 'Passwords do not match';
+            }
+            $this->view('users/register', $data);
         } else {
-            echo 'No Memes for you';
+            $this->view('users/register');
         }
-        //validate email
-    if (empty($data['email'])){
-        $data['email_err'] = 'Please enter a valid E-mail';
-    };
-    //validate pass
-    if (empty($data['pass'])){
-        $data['pass_err'] = 'Please enter an actual password';
-    } else if (strlen($data['pass'] < 6)){
-        $data['pass_err'] = 'Password length atleast 6';
     }
-    //validate pass2
-    if (empty($data['pass2'])){
-        $data['pass2_err'] = 'Please type something';
-    } else if ($data['pass'] != $data['pass2']) {
-        $data['pass2_err'] = 'Passwords dont match';
-    }
-    $this->view('users/register', $data);
-}
 }
