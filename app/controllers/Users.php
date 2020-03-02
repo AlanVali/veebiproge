@@ -7,7 +7,28 @@ class Users extends Controller
         $this->userModel = $this->model('User');
     }
 
-    public function login(){
+    public function logisisse(){
+
+        // init data for login
+        $data = array(
+            'email' => trim($_POST['email']),
+            'pass' => trim($_POST['pass']),
+            'email_err' => '',
+            'pass_err' => ''
+        );
+
+        // validate email
+        if(empty($data['email'])){
+            $data['email_err'] = 'Please enter the email';
+        } else if(!$this->userModel->findUserByEmail($data['email'])){
+            $data['email_err'] = 'Wrong e-mail or non-existent account';
+        }
+
+        // validate password
+        if(empty($data['pass'])){
+            $data['pass_err'] = 'Please enter the password';
+
+
         $this->view('users/login');
     }
 
@@ -16,7 +37,7 @@ class Users extends Controller
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             // process form
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            // init data
+            // init data for register
             $data = array(
                 'name' => trim($_POST['name']),
                 'email' => trim($_POST['email']),
@@ -54,7 +75,7 @@ class Users extends Controller
                 if($this->userModel->register($data)){
                     header('Location: '.URLROOT.'/users/login');
                 } else {
-                    die('Sometrhing went wrong');
+                    die('Something went wrong');
                 }
             } else {
                 $this->view('users/register', $data);

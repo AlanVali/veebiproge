@@ -32,4 +32,16 @@ class User
             return false;
         }
     }
+    public function logimesisse($email, $pass){
+        $this->db->query('SELECT * FROM users WHERE email=:email');
+        $this->db->bind(':email', $email);
+        $user = $this->db->getOne();
+        $userHashedPass = $user->pass;
+        if(password_verify($pass, $userHashedPass)){
+            return $user;
+        } else {
+            return false;
+        }
+    }
+
 }
