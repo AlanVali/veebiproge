@@ -20,19 +20,19 @@ class User
         }
     }
     // register user
-    public function register($data)
-    {
+    public function register($data){
         $this->db->query('INSERT INTO users (name, email, pass) VALUES (:name, :email, :pass)');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':pass', $data['pass']);
-        if ($this->db->execute()) {
+        if($this->db->execute()){
             return true;
         } else {
             return false;
         }
     }
-    public function logimesisse($email, $pass){
+    // login user
+    public function login($email, $pass){
         $this->db->query('SELECT * FROM users WHERE email=:email');
         $this->db->bind(':email', $email);
         $user = $this->db->getOne();
@@ -43,5 +43,4 @@ class User
             return false;
         }
     }
-
 }
