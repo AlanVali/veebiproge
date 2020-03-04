@@ -14,10 +14,10 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Database: `veeb`
+-- Database: `veebiproge`
 --
 CREATE DATABASE IF NOT EXISTS `veeb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `veeb`;
+USE `veebiproge`;
 
 -- --------------------------------------------------------
 -- Dumping data for table `posts`
