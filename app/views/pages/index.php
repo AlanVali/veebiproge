@@ -1,3 +1,3 @@
 <?php require_once APPROOT.'/views/inc/header.php';?>
-    index
+index
 <?php require_once APPROOT.'/views/inc/footer.php';?>

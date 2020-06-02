@@ -1,20 +1,20 @@
 <?php require_once APPROOT.'/views/inc/header.php';?>
-<!-- login form -->
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <div class="card card-body bg-light mt-5">
-            <h2><?php echo $['title']; ?></h2>
-            <div>
-               bla bla written by (Not pulled from DB)
-
-                <div class="">
-                    <div class="col">
-                        <input type="submit" value="Read more" class="btn btn-block bg-info">
-                    </div>
-                </div>
-            </div>
+<?php flashShow('post_message');?>
+    <div class="col">
+<?php if(isset($_SESSION['user_id'])) :?>
+    <a href="<?php echo URLROOT?>/posts/add" class="btn btn-dark">Add Post</a>
+<?php endif;?>
+    <div >
+        <div class="col">
+            <h1>Posts</h1>
         </div>
+        <?php foreach ($data as $post):?>
+            <div class="card card-body mb-3">
+                <h4 class="card-title"><?php echo $post->title;?></h4>
+                <div class="bg-light p-2 mb-2">Written by: <?php echo $post->name;?> on <?php echo $post->created_at;?></div>
+                <div class="card-text mb-2"><?php echo substr($post->content, 0, 300);?>...</div>
+                <a href="<?php echo URLROOT?>/posts/show/<?php echo $post->postID;?>" class="btn btn-dark">Read More</a>
+            </div>
+        <?php endforeach;?>
     </div>
-</div>
 <?php require_once APPROOT.'/views/inc/footer.php';?>
-
